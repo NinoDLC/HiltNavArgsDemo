@@ -1,7 +1,6 @@
 package fr.delcey.hiltnavargsdemo.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,7 +18,6 @@ class ListFragment : Fragment(R.layout.list_fragment) {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.main_rv)
         val adapter = NumberAdapter { itemIndex ->
-            Log.d("Nino", "listener called with $itemIndex")
             findNavController().navigate(ListFragmentDirections.navigateToDetail(itemIndex))
         }
 

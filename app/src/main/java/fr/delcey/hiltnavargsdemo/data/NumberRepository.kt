@@ -1,5 +1,6 @@
 package fr.delcey.hiltnavargsdemo.data
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,11 +16,11 @@ class NumberRepository @Inject constructor() {
     /**
      * Generates 10 random numbers, from 0 to 100 (inclusive), and emits them as a List in a Flow
      */
-    fun getNumbersFlow() = flow {
+    fun getNumbersFlow(): Flow<List<IndexedNumber>> = flow {
         emit(numberList)
     }
 
-    fun getNumberDetails(index: Int) = flow {
+    fun getNumberDetails(index: Int): Flow<NumberDetails> = flow {
         val numberInfo = getNumberDetails(numberList[index])
 
         emit(numberInfo)
