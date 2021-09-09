@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/fragment_destination">
+
+    <fragment
+        android:id="@+id/fragment_destination"
+        android:name="fr.delcey.hiltnavargsdemo.list.ListFragment"
+        android:label="@string/list_fragment_title"
+        tools:layout="@layout/list_fragment">
+        <action
+            android:id="@+id/navigate_to_detail"
+            app:destination="@id/detail_destination" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detail_destination"
+        android:name="fr.delcey.hiltnavargsdemo.detail.DetailFragment"
+        android:label="@string/list_fragment_details"
+        tools:layout="@layout/detail_fragment">
+        <argument
+            android:name="numberId"
+            app:argType="integer" />
+    </fragment>
+</navigation>

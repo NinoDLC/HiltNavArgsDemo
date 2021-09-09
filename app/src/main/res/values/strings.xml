@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HiltNavArgsDemo</string>
+    <string name="list_fragment_title">List</string>
+    <string name="list_fragment_details">Details</string>
+</resources>
