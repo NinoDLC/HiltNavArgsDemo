@@ -1,7 +1,7 @@
 package fr.delcey.hiltnavargsdemo.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
+import fr.delcey.hiltnavargsdemo.NavArgProducer
 import fr.delcey.hiltnavargsdemo.data.NumberDetails
 import fr.delcey.hiltnavargsdemo.data.NumberRepository
 import fr.delcey.hiltnavargsdemo.utils.TestCoroutineRule
@@ -21,7 +21,10 @@ import org.junit.Test
 class DetailViewModelTest {
 
     companion object {
+        // IN
         private const val DEFAULT_NUMBER_INDEX = 42
+
+        // OUT
         private const val DEFAULT_NUMBER_VALUE = "666"
         private const val DEFAULT_NUMBER_TRIVIA = "DEFAULT_NUMBER_TRIVIA"
     }
@@ -36,7 +39,7 @@ class DetailViewModelTest {
     private lateinit var numberRepository: NumberRepository
 
     @MockK
-    private lateinit var savedStateHandle: SavedStateHandle
+    private lateinit var navArgProducer: NavArgProducer
 
     private lateinit var viewModel: DetailViewModel
 
@@ -45,10 +48,9 @@ class DetailViewModelTest {
         MockKAnnotations.init(this)
 
         every { numberRepository.getNumberDetails(DEFAULT_NUMBER_INDEX) } returns flowOf(getDefaultNumberDetails())
-        every { savedStateHandle.contains("numberId") } returns true
-        every { savedStateHandle.get<Int>("numberId") } returns DEFAULT_NUMBER_INDEX
+        every { navArgProducer.getNavArgs(DetailFragmentArgs::class.java) } returns getDefaultDetailFragmentArgs()
 
-        viewModel = DetailViewModel(numberRepository, savedStateHandle)
+        viewModel = DetailViewModel(numberRepository, navArgProducer)
     }
 
     @Test
@@ -61,10 +63,16 @@ class DetailViewModelTest {
         }
     }
 
-    // region DEFAULT
+    // region IN
+    private fun getDefaultDetailFragmentArgs() = DetailFragmentArgs(
+        numberId = DEFAULT_NUMBER_INDEX
+    )
+    // endregion IN
+
+    // region OUT
     private fun getDefaultNumberDetails() = NumberDetails(
         value = DEFAULT_NUMBER_VALUE,
         trivia = DEFAULT_NUMBER_TRIVIA
     )
-    // endregion DEFAULT
+    // endregion OUT
 }
