@@ -9,12 +9,12 @@ import kotlin.random.Random
 @Singleton
 class NumberRepository @Inject constructor() {
 
-    private val numberList = List(100) {
-        IndexedNumber(numberId = it, value = Random.nextInt(101).toString())
+    private val numberList = List(1_000) {
+        IndexedNumber(numberId = it, value = Random.nextInt(1_000).toString())
     }
 
     /**
-     * Generates 10 random numbers, from 0 to 100 (inclusive), and emits them as a List in a Flow
+     * Generates 1'000 random numbers, from 0 to 999 (inclusive), and emits them as a List in a Flow
      */
     fun getNumbersFlow(): Flow<List<IndexedNumber>> = flow {
         emit(numberList)
