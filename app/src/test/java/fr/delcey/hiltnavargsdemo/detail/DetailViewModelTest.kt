@@ -48,7 +48,7 @@ class DetailViewModelTest {
         MockKAnnotations.init(this)
 
         every { numberRepository.getNumberDetails(DEFAULT_NUMBER_INDEX) } returns flowOf(getDefaultNumberDetails())
-        every { navArgProducer.getNavArgs(DetailFragmentArgs::class.java) } returns getDefaultDetailFragmentArgs()
+        every { navArgProducer.getNavArgs(DetailFragmentArgs::class) } returns getDefaultDetailFragmentArgs()
 
         viewModel = DetailViewModel(numberRepository, navArgProducer)
     }

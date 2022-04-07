@@ -17,7 +17,7 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     val numberInfoLiveData : LiveData<NumberDetails> = liveData {
-        val args : DetailFragmentArgs = navArgProducer.getNavArgs(DetailFragmentArgs::class.java)
+        val args : DetailFragmentArgs = navArgProducer.getNavArgs(DetailFragmentArgs::class)
 
         numberRepository.getNumberDetails(args.numberId).collect {
             emit(it)
