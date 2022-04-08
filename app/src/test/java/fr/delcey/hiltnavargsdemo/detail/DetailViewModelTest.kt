@@ -13,6 +13,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.advanceTimeBy
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -62,10 +63,10 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun nominal_case() = testCoroutineRule.runBlockingTest {
+    fun nominal_case() = testCoroutineRule.runTest {
         // When
         viewModel.numberInfoLiveData.observeForTesting {
-            advanceTimeBy(100)
+            advanceTimeBy(101) // could also use 'advanceTimeBy(100); runCurrent()' or even 'advanceTimeByAndRun(100)' extension
 
             // Then
             assertEquals(getDefaultNumberDetails(), it.value)
