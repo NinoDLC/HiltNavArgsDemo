@@ -5,13 +5,14 @@ import fr.delcey.hiltnavargsdemo.NavArgProducer
 import fr.delcey.hiltnavargsdemo.data.NumberDetails
 import fr.delcey.hiltnavargsdemo.data.NumberRepository
 import fr.delcey.hiltnavargsdemo.utils.TestCoroutineRule
-import fr.delcey.hiltnavargsdemo.utils.assertNonNullLiveDataValue
+import fr.delcey.hiltnavargsdemo.utils.getTestCoroutineDispatcherProvider
 import fr.delcey.hiltnavargsdemo.utils.observeForTesting
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -47,19 +48,27 @@ class DetailViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        every { numberRepository.getNumberDetails(DEFAULT_NUMBER_INDEX) } returns flowOf(getDefaultNumberDetails())
+        every { numberRepository.getNumberDetails(DEFAULT_NUMBER_INDEX) } returns flow {
+            delay(100) // Simulate the computation takes time
+            emit(getDefaultNumberDetails())
+        }
         every { navArgProducer.getNavArgs(DetailFragmentArgs::class) } returns getDefaultDetailFragmentArgs()
 
-        viewModel = DetailViewModel(numberRepository, navArgProducer)
+        viewModel = DetailViewModel(
+            coroutineDispatcherProvider = testCoroutineRule.getTestCoroutineDispatcherProvider(),
+            numberRepository = numberRepository,
+            navArgProducer = navArgProducer
+        )
     }
 
     @Test
     fun nominal_case() = testCoroutineRule.runBlockingTest {
         // When
         viewModel.numberInfoLiveData.observeForTesting {
+            advanceTimeBy(100)
+
             // Then
-            val value = assertNonNullLiveDataValue<NumberDetails>(it)
-            assertEquals(getDefaultNumberDetails(), value)
+            assertEquals(getDefaultNumberDetails(), it.value)
         }
     }
 

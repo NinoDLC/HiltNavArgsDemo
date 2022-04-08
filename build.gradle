@@ -2,9 +2,8 @@
 buildscript {
 
     ext.kotlin_version = "1.5.30"
-    ext.navigation_version = "2.4.0-alpha08"
-    ext.hilt_version = "2.38.1"
-    ext.lifecycle_version = "2.3.1"
+    ext.navigation_version = "2.4.2"
+    ext.hilt_version = "2.41"
 
     repositories {
         google()
